@@ -22,6 +22,7 @@ MVC		/Models
   ![Feature Toggles On](/assets/FeaturesToggleOn.png)
   ![Feature Toggles Off](/assets/FeaturesToggleOff.png)
   - Following the Exercise example:
+  
   ![Default Toggle Options](/assets/DefaultToggleOptions.png)
 
 ## Not Implemented:
