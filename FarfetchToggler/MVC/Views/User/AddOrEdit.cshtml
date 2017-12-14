@@ -1,0 +1,33 @@
+﻿@model MVC.Models.mvcUserModel
+@{
+    ViewBag.Title = "AddOrEdit";
+}
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        var selectList = new List<SelectListItem>();
+        selectList.Add(new SelectListItem { Text = "Normal User", Value = "normal" });
+        selectList.Add(new SelectListItem { Text = "Premium User", Value = "premium" });
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserType)
+            @Html.DropDownListFor(model => model.UserType, selectList, new { @class = "dropdown-content" })
+            @Html.ValidationMessageFor(model => model.UserType)
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn button" />
+            <input type="reset" value="Reset" class="btn button" />
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+    }

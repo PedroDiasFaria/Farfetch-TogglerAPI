@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MVC.Models.mvcUserModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br/>
+
+<p>
+    <a href="@Url.Action("AddOrEdit", "User")" class="btn btn-default"><i class="fa fa-plus"></i> Create New</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserType)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserType)
+            </td>
+            <td>
+                @if (item.UserType != "admin")
+                {
+                    <a href="@Url.Action("AddOrEdit", "User", new { id = item.Id})" class="btn btn-default"><i class="fa fa-pencil"></i> Edit User </a>
+                    <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i> Delete User  </a>
+                }
+                <a href="@Url.Action("ViewFeatures", "Feature", new { userType = item.UserType})" class="btn btn-default"><i class="fa fa-eye"></i> View Features Available </a>
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    <a href="@Url.Action("EditFeatures", "Feature")" class="btn btn-default"><i class="fa fa-pencil"></i> Edit Features  </a>
+</p>
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+
+        function Delete(id) {
+            alertify.confirm('Confirm Delete', 'Are you Sure you want to Delete?', function () {
+                window.location.href = '@Url.Action("Delete", "User")/' + id;
+            }, null);
+        }
+    </script>
+}

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<MVC.Models.mvcFeatureModel>
+
+@{
+    ViewBag.Title = "ViewFeatures";
+}
+
+<h2>Features available to users of type: @ViewBag.userType </h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FeatureType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FeatureFlag)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeatureType)
+        </td>
+        <td>
+            @if (item.FeatureFlag)
+            {
+                <div class="feature-flag-on">On</div>
+            }
+            else
+            {
+                <div class="feature-flag-off">Off</div>
+            }
+        </td>
+    </tr>
+}
+
+</table>
