@@ -4,13 +4,10 @@ Farfetch Technical Exercise : REST Web Api w/ Feature Toggling
 ## Important files:
 
 WebAPI	/Controllers
-
 		/Models
 
 MVC		/Models
-
 		/Views
-
 		/Controllers
 
 ## Implemented:
@@ -18,22 +15,22 @@ MVC		/Models
 - [x] Feature Toggles with Hierarchy:
   - Have 3 test Features called `BlueButton`, `GreenButton` and `RedButton`, which:
     - Are subclasses of `ButtonFeature`, a subclass of `Feature`
-    ![Custom Toggles](/FarfetchToggler/assets/FeaturesToggleCustom.png)
+    ![Custom Toggles](/assets/FeaturesToggleCustom.png)
 - [x] REST API for a simple creation / modification/ deletion of new Features and Users
-	![Main View](/FarfetchToggler/assets/IndexView.png)
+	![Main View](/assets/IndexView.png)
 - [x] Features Toggling that can be checked if a Feature is available to a particular type of Users
-  ![Feature Toggles On](/FarfetchToggler/assets/FeaturesToggleOn.png)
-  ![Feature Toggles Off](/FarfetchToggler/assets/FeaturesToggleOff.png)
+  ![Feature Toggles On](/assets/FeaturesToggleOn.png)
+  ![Feature Toggles Off](/assets/FeaturesToggleOff.png)
   - Following the Exercise example:
-  	![Default Toggle Options](/FarfetchToggler/assets/DefaultToggleOptions.png)
+  	![Default Toggle Options](/assets/DefaultToggleOptions.png)
 
 ## Not Implemented:
 
 - [ ] Registration / Login:
   - Although there is no Authentication system in the Application, users only have access to their own features accordingly their userType and the Feature permissions:
-  	![Admin Features](/FarfetchToggler/assets/AdminFeatures.png)
-  	![Normal User Features](/FarfetchToggler/assets/NormalFeatures.png)
-  	![Premium User Features](/FarfetchToggler/assets/PremiumFeatures.png)
+  	![Admin Features](/assets/AdminFeatures.png)
+  	![Normal User Features](/assets/NormalFeatures.png)
+  	![Premium User Features](/assets/PremiumFeatures.png)
 
 
 ## Running
