@@ -209,9 +209,10 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\AddOrEdit.cshtml" />
+    <Content Include="Views\User\AddOrEditUser.cshtml" />
     <Content Include="Views\Feature\EditFeatures.cshtml" />
     <Content Include="Views\Feature\ViewFeatures.cshtml" />
+    <Content Include="Views\Feature\AddOrEditFeature.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

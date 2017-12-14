@@ -1,5 +1,9 @@
 ﻿namespace WebAPI.Models
 {
+    /// <summary>
+    /// Feature ButtonFeature
+    /// Serves as an example to test the Feature superclass
+    /// </summary>
     public class ButtonFeature : Feature
     {
         /*  In case of A/B testing, we decide which users can use the service
@@ -16,6 +20,9 @@
         }
     }
 
+    /// <summary>
+    /// Feature BlueButton
+    /// </summary>
     public class BlueButton : ButtonFeature
     {
         /****************/
@@ -52,6 +59,9 @@
         }
     }
 
+    /// <summary>
+    /// Feature GreenButton
+    /// </summary>
     public class GreenButton : ButtonFeature
     {
         public GreenButton(string name) : base(name, "GreenButton", true, "admin;premium")
@@ -80,6 +90,9 @@
         }
     }
 
+    /// <summary>
+    /// Feature RedButton
+    /// </summary>
     public class RedButton : ButtonFeature
     {
         public RedButton(string name) : base(name, "RedButton", true, "admin;normal")

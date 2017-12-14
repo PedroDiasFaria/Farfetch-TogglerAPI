@@ -6,7 +6,7 @@
 <br/>
 
 <p>
-    <a href="@Url.Action("AddOrEdit", "User")" class="btn btn-default"><i class="fa fa-plus"></i> Create New</a>
+    <a href="@Url.Action("AddOrEditUser", "User")" class="btn btn-default"><i class="fa fa-plus"></i> Create New User</a>
 </p>
 <table class="table table-striped">
     <thead class="table-heading">
@@ -32,20 +32,70 @@
             <td>
                 @if (item.UserType != "admin")
                 {
-                    <a href="@Url.Action("AddOrEdit", "User", new { id = item.Id})" class="btn btn-default"><i class="fa fa-pencil"></i> Edit User </a>
+                    <a href="@Url.Action("AddOrEditUser", "User", new { id = item.Id})" class="btn btn-default"><i class="fa fa-pencil"></i> Edit User </a>
                     <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i> Delete User  </a>
                 }
-                <a href="@Url.Action("ViewFeatures", "Feature", new { userType = item.UserType})" class="btn btn-default"><i class="fa fa-eye"></i> View Features Available </a>
+                <a href="@Url.Action("ViewFeatures", "Feature", new { userType = item.UserType, userName = item.Name})" class="btn btn-default"><i class="fa fa-eye"></i> View Features Available </a>
             </td>
         </tr>
     }
 </table>
 <p>
-    <a href="@Url.Action("EditFeatures", "Feature")" class="btn btn-default"><i class="fa fa-pencil"></i> Edit Features  </a>
+    <a href="@Url.Action("EditFeatures", "Feature")" class="btn btn-default"><i class="fa fa-pencil"></i> View/Edit Features  </a>
 </p>
 
-@section scripts{
-    <script>
+<br/>
+<h2>Default Toggle Options</h2>
+<p>(User 'x' has access to Feature 'y' if toggle is:)</p>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                User Type
+            </th>
+            <th style="text-align:center">Feature Type</th>
+            <th>
+                BlueButton
+            </th>
+            <th>
+                GreenButton
+            </th>
+            <th>
+                RedButton
+            </th>
+        </tr>
+    </thead>
+    <tr>
+        <td>
+            Admin
+        </td>
+        <td></td>
+        <td><div class="feature-flag-on">On</div><div class="feature-flag-off">Off</div></td>
+        <td><div class="feature-flag-on">On</div><div class="feature-flag-off">Off</div></td>
+        <td><div class="feature-flag-on">On</div><div class="feature-flag-off">Off</div></td>
+    </tr>
+    <tr>
+        <td>
+            Normal
+        </td>
+        <td></td>
+        <td><div class="feature-flag-on">On</div></td>
+        <td>No access</td>
+        <td><div class="feature-flag-on">On</div></td>
+    </tr>
+    <tr>
+        <td>
+            Premium
+        </td>
+        <td></td>
+        <td><div class="feature-flag-on">On</div><div class="feature-flag-off">Off</div></td>
+        <td><div class="feature-flag-on">On</div></td>
+        <td>No access</td>
+    </tr>
+</table>
+
+        @section scripts{
+            <script>
         $(function () {
             var successMessage = '@TempData["SuccessMessage"]'
             if (successMessage != '')
@@ -57,5 +107,5 @@
                 window.location.href = '@Url.Action("Delete", "User")/' + id;
             }, null);
         }
-    </script>
-}
+            </script>
+        }

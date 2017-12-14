@@ -48,9 +48,14 @@ namespace WebAPI.Controllers
             return Ok(featureModel);
         }
 
+        /// <summary>
+        /// Turns On/Off the Feature's toggle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Feature/ToggleFeature/5
         [Route("api/Feature/ToggleFeature/{id}")]
-        [HttpGet]
+        [HttpPut]
         [ResponseType(typeof(Feature))]
         public IHttpActionResult ToggleFeature(long id)
         {
@@ -59,13 +64,16 @@ namespace WebAPI.Controllers
             {
                 return NotFound();
             }
+            
+
+            //Create the subclass
+            Feature featureModel = CreateFeature(feature, false);
+
+            //Toggles accordingly the subclass permissions
+            featureModel.Toggle();
+
             db.Entry(feature).State = EntityState.Detached;
-
-            Feature featuremodel = createFeature(feature);
-
-            featuremodel.Toggle();
-
-            db.Entry(featuremodel).State = EntityState.Modified;
+            db.Entry(featureModel).State = EntityState.Modified;
             try
             {
                 db.SaveChanges();
@@ -85,6 +93,11 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Giving a type of user, gets his available features
+        /// </summary>
+        /// <param name="userType"></param>
+        /// <returns></returns>
         // GET: api/Feature/GetUserFeatures/admin
         [Route("api/Feature/GetUserFeatures/{userType}")]
         [HttpGet]
@@ -109,6 +122,12 @@ namespace WebAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, features);
         }
 
+        /// <summary>
+        /// Changes Feature's properties (such as name or type)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="feature"></param>
+        /// <returns></returns>
         // PUT: api/Feature/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutFeature(long id, Feature feature)
@@ -123,7 +142,16 @@ namespace WebAPI.Controllers
                 return BadRequest();
             }
 
-            db.Entry(feature).State = EntityState.Modified;
+            //Returns null if FeatureType does not exist
+            Feature featureModel = CreateFeature(feature, true);
+
+            if (featureModel == null)
+            {
+                return BadRequest("Invalid Feature Type");
+            }
+
+            db.Entry(feature).State = EntityState.Detached;
+            db.Entry(featureModel).State = EntityState.Modified;
 
             try
             {
@@ -144,6 +172,11 @@ namespace WebAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        /// <summary>
+        /// Creates a new feature
+        /// </summary>
+        /// <param name="feature"></param>
+        /// <returns></returns>
         // POST: api/Feature
         [ResponseType(typeof(Feature))]
         public IHttpActionResult PostFeature(Feature feature)
@@ -153,12 +186,25 @@ namespace WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            //Returns null if FeatureType does not exist
+            feature = CreateFeature(feature, true);
+
+            if(feature == null)
+            {
+                return BadRequest("Invalid Feature Type");
+            }
+
             db.Features.Add(feature);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = feature.Id }, feature);
         }
 
+        /// <summary>
+        /// Deleates a feature
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE: api/Feature/5
         [ResponseType(typeof(Feature))]
         public IHttpActionResult DeleteFeature(long id)
@@ -189,29 +235,55 @@ namespace WebAPI.Controllers
             return db.Features.Count(e => e.Id == id) > 0;
         }
 
-        private Feature createFeature(Feature feature)
+        /// <summary>
+        /// Aux function to instantiate each Feature subclass
+        /// Fixes the "Web API error: The 'ObjectContent`1' type failed to serialize" Error
+        /// </summary>
+        /// <param name="feature"></param>
+        /// <param name="isNew"></param>
+        /// <returns></returns>
+        private Feature CreateFeature(Feature feature, bool isNew)
         {
             Feature featuremodel = new Feature();
 
             switch (feature.FeatureType)
             {
                 case "BlueButton":
-                    featuremodel = new BlueButton(feature.Name, feature.FeatureFlag, feature.FeaturePermissions);
+                    if (isNew)
+                    {
+                        featuremodel = new BlueButton(feature.Name);
+                    }
+                    else
+                    {
+                        featuremodel = new BlueButton(feature.Name, feature.FeatureFlag, feature.FeaturePermissions);
+                    }                    
                     break;
                 case "RedButton":
-                    featuremodel = new RedButton(feature.Name, feature.FeatureFlag, feature.FeaturePermissions);
+                    if (isNew)
+                    {
+                        featuremodel = new RedButton(feature.Name);
+                    }
+                    else
+                    {
+                        featuremodel = new RedButton(feature.Name, feature.FeatureFlag, feature.FeaturePermissions);
+                    }
                     break;
                 case "GreenButton":
-                    featuremodel = new GreenButton(feature.Name, feature.FeatureFlag, feature.FeaturePermissions);
+                    if (isNew)
+                    {
+                        featuremodel = new GreenButton(feature.Name);
+                    }
+                    else
+                    {
+                        featuremodel = new GreenButton(feature.Name, feature.FeatureFlag, feature.FeaturePermissions);
+                    }
                     break;
                 default:
                     return null;
             }
-
             featuremodel.Id = feature.Id;
 
             return featuremodel;
-
         }
     }
 }

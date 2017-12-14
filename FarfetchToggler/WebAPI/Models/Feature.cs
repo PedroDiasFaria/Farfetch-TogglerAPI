@@ -4,6 +4,15 @@ using System.Linq;
 
 namespace WebAPI.Models
 {
+    /// <summary>
+    /// Superclass Feature
+    /// 
+    /// A Feature consists on:
+    ///     Name, 
+    ///     FeatureType (to associate his subclasses), 
+    ///     FeatureFlag (to Toggle on/off depending of business logic)
+    ///     FeaturePermissions(list of user groups that have access to the Feature depending on its FeatureFlag)
+    /// </summary>
     public class Feature
     {
         [Key]
@@ -11,6 +20,9 @@ namespace WebAPI.Models
         public string Name { get; set; }
         public string FeatureType { get; set; }
         public bool FeatureFlag { get; set; }
+
+        //Using a SQL DB, does not permit for lists to be stored.
+        //Workaround using a string with a Delimiter char
         public string FeaturePermissions { get; set; }
 
         public List<string> FeaturePermissionsList { get; set; }
@@ -31,7 +43,6 @@ namespace WebAPI.Models
 
         public virtual bool Toggle()
         {
-            //FeatureFlag = !FeatureFlag;
             this.GetType().GetProperty("FeatureFlag").SetValue(this, !FeatureFlag, null);
             return FeatureFlag;
         }

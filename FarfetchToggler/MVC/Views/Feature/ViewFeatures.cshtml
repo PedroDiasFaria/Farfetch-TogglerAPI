@@ -5,6 +5,7 @@
 }
 
 <h2>Features available to users of type: @ViewBag.userType </h2>
+<h3>User: @ViewBag.userName</h3>
 
 <table class="table">
     <tr>
@@ -26,13 +27,24 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FeatureType)
+            @switch (item.FeatureType)
+            {
+                case "BlueButton":
+                    <div class="blueBtn btn">@item.FeatureType</div>
+                    break;
+                case "GreenButton":
+                    <div class="greenBtn btn">@item.FeatureType</div>
+                    break;
+                case "RedButton":
+                    <div class="redBtn btn">@item.FeatureType</div>
+                    break;
+            }
         </td>
         <td>
             @if (item.FeatureFlag)
             {
                 <div class="feature-flag-on">On</div>
-            }
+                }
             else
             {
                 <div class="feature-flag-off">Off</div>
@@ -40,5 +52,4 @@
         </td>
     </tr>
 }
-
 </table>

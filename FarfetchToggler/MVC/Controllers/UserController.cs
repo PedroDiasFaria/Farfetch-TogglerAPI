@@ -19,7 +19,12 @@ namespace MVC.Controllers
             return View(userList);
         }
 
-        public ActionResult AddOrEdit(int id = 0)
+        /// <summary>
+        /// Opens the new/edit user window
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult AddOrEditUser(int id = 0)
         {
             if(id == 0)
                 return View(new mvcUserModel());
@@ -30,8 +35,13 @@ namespace MVC.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates or Edits an existing user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult AddOrEdit(mvcUserModel user)
+        public ActionResult AddOrEditUser(mvcUserModel user)
         {
             if(user.Id == 0)
             {
@@ -46,6 +56,11 @@ namespace MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Deletes an user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Delete(int id)
         {
             HttpResponseMessage response = GlobalVariables.WebApiClient.DeleteAsync("User/"+id.ToString()).Result;

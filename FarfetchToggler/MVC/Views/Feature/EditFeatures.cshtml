@@ -25,32 +25,64 @@
     </thead>
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FeatureType)
-        </td>
-        <td>
-            @if (item.FeatureFlag)
-        {
-            <div class="feature-flag-on">On</div>
-        }
-        else
-        {
-            <div class="feature-flag-off">Off</div>
-        }
-        </td>
-        <td>
-            @foreach (var perm in item.FeaturePermissionsList)
-        {
-            <div>@perm</div>
-    }
-        </td>
-        <td>
-            <a href="@Url.Action("ToggleFeature", "Feature", new { featureId = item.Id})" class="btn btn-default"><i class="fa fa-power-off"></i> Toggle Feature </a>
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @switch (item.FeatureType)
+                {
+                    case "BlueButton":
+                        <div class="blueBtn btn">@item.FeatureType</div>
+                        break;
+                    case "GreenButton":
+                        <div class="greenBtn btn">@item.FeatureType</div>
+                        break;
+                    case "RedButton":
+                        <div class="redBtn btn">@item.FeatureType</div>
+                        break;
+                }
+            </td>
+            <td>
+                @if (item.FeatureFlag)
+                {
+                    <div class="feature-flag-on">On</div>
+                }
+                else
+                {
+                    <div class="feature-flag-off">Off</div>
+                }
+            </td>
+            <td>
+                @foreach (var perm in item.FeaturePermissionsList)
+                {
+                    <div>@perm</div>
+                }
+            </td>
+            <td>
+                <a href="@Url.Action("ToggleFeature", "Feature", new { featureId = item.Id})" class="btn btn-default"><i class="fa fa-power-off"></i> Toggle Feature </a>
+                <a href="@Url.Action("AddOrEditFeature", "Feature", new { featureId = item.Id})" class="btn btn-default"><i class="fa fa-pencil"></i> Edit Feature </a>
+                <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i> Delete Feature  </a>
+            </td>
+        </tr>
     }
 </table>
+<p>
+    <a href="@Url.Action("AddOrEditFeature", "Feature")" class="btn btn-default"><i class="fa fa-plus"></i> Create New Feature</a>
+</p>
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+
+        function Delete(id) {
+            alertify.confirm('Confirm Delete', 'Are you Sure you want to Delete?', function () {
+                window.location.href = '@Url.Action("Delete", "Feature")/' + id;
+            }, null);
+        }
+    </script>
+}

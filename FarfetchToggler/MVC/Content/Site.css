@@ -134,3 +134,24 @@ label {
     background: red;
     color: white
 }
+
+.blueBtn {
+    text-align: center;
+    width: 200px;
+    background: blue;
+    color: white
+}
+
+.greenBtn {
+    text-align: center;
+    width: 200px;
+    background: green;
+    color: white
+}
+
+.redBtn {
+    text-align: center;
+    width: 200px;
+    background: red;
+    color: white
+}
